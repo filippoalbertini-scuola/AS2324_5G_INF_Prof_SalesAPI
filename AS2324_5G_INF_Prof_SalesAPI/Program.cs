@@ -14,6 +14,12 @@ namespace AS2324_5G_INF_Prof_SalesAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // adding DataTable serializing in program.cs
+            // https://learn.microsoft.com/en-us/answers/questions/1163994/system-notsupportedexception-serialization-and-des
+
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

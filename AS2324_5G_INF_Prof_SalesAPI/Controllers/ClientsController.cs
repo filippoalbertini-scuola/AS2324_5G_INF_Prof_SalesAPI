@@ -40,6 +40,9 @@ namespace AS2324_5G_INF_Prof_SalesAPI.Controllers
             da.Fill(dtbClients);
 
             conn.Close();
+
+            //return Json(new { output = dtbClients });
+            return Json(dtbClients);
         }
     }
 }
