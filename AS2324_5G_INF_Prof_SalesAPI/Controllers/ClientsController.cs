@@ -22,7 +22,7 @@ namespace AS2324_5G_INF_Prof_SalesAPI.Controllers
 
             string file = "";
             //file = Path.Combine(webRootPath, "/Database/NorthwindITA.db");
-            file = Path.Combine(contentRootPath, "Database", "NorthwindITA.db");
+            file = Path.Combine(contentRootPath, "Database", "northwindITA.db");
 
             // connessione al DB in SQL Lite (vedi www.connectionstrings.com)
             strConn = @"Data Source=" + file + ";Pooling=false;Synchronous=Full;";
@@ -38,28 +38,35 @@ namespace AS2324_5G_INF_Prof_SalesAPI.Controllers
 
             // connessione al DB in SQL Lite (vedi www.connectionstrings.com)
 
+            Console.WriteLine(strConn);
+            try
+            {
+                SQLiteConnection conn = new SQLiteConnection(strConn);
+                conn.Open();
 
-            SQLiteConnection conn = new SQLiteConnection(strConn);
-            conn.Open();
 
+                // carico il data table clienti
 
-            // carico il data table clienti
+                // prepara la QUERY
+                query = "";
+                query = query + "SELECT ";
+                query = query + "   IdCliente, NomeSocieta, Indirizzo ";
+                query = query + "FROM ";
+                query = query + "   Clienti ";
 
-            // prepara la QUERY
-            query = "";
-            query = query + "SELECT ";
-            query = query + "   IdCliente, NomeSocieta, Indirizzo ";
-            query = query + "FROM ";
-            query = query + "   Clienti ";
+                // crea DataAdapter
+                SQLiteDataAdapter da = new SQLiteDataAdapter(query, conn);
 
-            // crea DataAdapter
-            SQLiteDataAdapter da = new SQLiteDataAdapter(query, conn);
+                // popola il DataTable con DataAdapter 
+                dtbClients = new DataTable();
+                da.Fill(dtbClients);
 
-            // popola il DataTable con DataAdapter 
-            dtbClients = new DataTable();
-            da.Fill(dtbClients);
-
-            conn.Close();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
             //return Json(new { output = dtbClients });
             return Json(dtbClients);
