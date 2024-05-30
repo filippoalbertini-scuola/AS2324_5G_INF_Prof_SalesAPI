@@ -66,10 +66,10 @@ namespace AS2324_5G_INF_Prof_SalesAPI.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                return Json(new { status="KO", output = ex.Message });
             }
 
-            //return Json(new { output = dtbClients });
-            return Json(dtbClients);
+            return Json(new { status="OK", output = dtbClients });
         }
     }
 }
